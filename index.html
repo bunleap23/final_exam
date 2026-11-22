@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>គណនាថ្លៃផ្ញើរយានជំនិះ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Kantumruy Pro', sans-serif;
+    }
+
+    body {
+      background-color: #1e3a5f;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .wrapper {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 920px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 30px;
+      width: 440px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #222;
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 15px;
+      color: #333;
+      width: 40%;
+    }
+
+    .input-box {
+      width: 60%;
+      position: relative;
+    }
+
+    select,
+    input[type="time"],
+    input[type="text"] {
+      width: 100%;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      background-color: #fff;
+      font-size: 15px;
+      color: #222;
+      outline: none;
+    }
+
+    select:focus,
+    input[type="time"]:focus {
+      border-color: #1e3a5f;
+    }
+
+    input[type="text"] {
+      padding-right: 34px;
+      background-color: #f3f4f6;
+      font-weight: 600;
+    }
+
+    .currency {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .btn-row {
+      margin-top: 22px;
+    }
+
+    button {
+      width: 100%;
+      height: 44px;
+      background-color: #dc2626;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #b91c1c;
+    }
+
+    /* ប្រអប់តារាងតម្លៃខាងស្តាំបែបធម្មតា */
+    .rules-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .rules-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    .rule-section {
+      margin-bottom: 24px;
+    }
+
+    .rule-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .rule-section p {
+      font-size: 16px;
+      color: #333;
+      margin-left: 20px;
+      line-height: 1.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <!-- ប្រអប់គណនាខាងឆ្វេង -->
+    <div class="card">
+      <h1>គណនាថ្លៃផ្ញើរយានជំនិះ</h1>
+
+      <div class="form-group">
+        <label for="vehicle">ជ្រើសរើស យានជំនិះ</label>
+        <div class="input-box">
+          <select id="vehicle">
+            <option value="car">ឡាន</option>
+            <option value="moto">ម៉ូតូ</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="timeIn">ម៉ោងចូល</label>
+        <div class="input-box">
+          <input type="time" id="timeIn">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="timeOut">ម៉ោងចេញ</label>
+        <div class="input-box">
+          <input type="time" id="timeOut">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="riel">ថ្លៃផ្ញើរ រៀល</label>
+        <div class="input-box">
+          <input type="text" id="riel" readonly placeholder="0">
+          <span class="currency">៛</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dollar">ថ្លៃផ្ញើរ ដុល្លា</label>
+        <div class="input-box">
+          <input type="text" id="dollar" readonly placeholder="0.00">
+          <span class="currency">$</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="calculateParking()">គណនា</button>
+      </div>
+    </div>
+
+    <!-- ប្រអប់តារាងតម្លៃខាងស្តាំ -->
+    <div class="card rules-card">
+      <h1>តារាងតម្លៃផ្ញើរ</h1>
+
+      <div class="rule-section">
+        <h2>ឡាន</h2>
+        <p>+ ប្រសិនបើផ្ញើរ 8h &rArr; 1h = 500៛</p>
+        <p>+ តែបើលើស 8h &rArr; 1h = 1000៛</p>
+      </div>
+
+      <div class="rule-section">
+        <h2>ម៉ូតូ</h2>
+        <p>+ ប្រសិនបើផ្ញើរ 8h &rArr; 1h = 200៛</p>
+        <p>+ តែបើលើស 8h &rArr; 1h = 300៛</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateParking() {
+      var vehicle = document.getElementById("vehicle").value;
+      var timeIn = document.getElementById("timeIn").value;
+      var timeOut = document.getElementById("timeOut").value;
+      var exchangeRate = 4000;
+
+      if (timeIn === "" || timeOut === "") {
+        alert("សូមជ្រើសរើស ម៉ោងចូល និង ម៉ោងចេញ ជាមុនសិន!");
+        return;
+      }
+
+      var inParts = timeIn.split(":");
+      var outParts = timeOut.split(":");
+
+      var startMinutes = parseInt(inParts[0]) * 60 + parseInt(inParts[1]);
+      var endMinutes = parseInt(outParts[0]) * 60 + parseInt(outParts[1]);
+
+      if (endMinutes < startMinutes) {
+        endMinutes += 24 * 60;
+      }
+
+      var totalHours = (endMinutes - startMinutes) / 60;
+      var totalRiel = 0;
+
+      if (vehicle === "car") {
+        if (totalHours <= 8) {
+          totalRiel = totalHours * 500;
+        } else {
+          totalRiel = totalHours * 1000;
+        }
+      } else if (vehicle === "moto") {
+        if (totalHours <= 8) {
+          totalRiel = totalHours * 200;
+        } else {
+          totalRiel = totalHours * 300;
+        }
+      }
+
+      var totalDollar = totalRiel / exchangeRate;
+
+      document.getElementById("riel").value = Math.round(totalRiel);
+      document.getElementById("dollar").value = totalDollar.toFixed(2);
+    }
+  </script>
+
+</body>
+</html>
